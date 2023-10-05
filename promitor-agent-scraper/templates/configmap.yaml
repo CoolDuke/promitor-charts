@@ -96,6 +96,13 @@ data:
         interval: {{ .Values.metricDefaults.aggregation.interval }}
       scraping:
         schedule: {{ .Values.metricDefaults.scraping.schedule | quote }}
+      {{- with .Values.metricDefaults.labels }}
+      labels:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.metricDefaults.limit }}
+      limit: {{ . }}
+      {{- end }}
     metrics:{{- if .Values.metrics | len | eq 0 }} []{{- else }}
 {{ tpl $metrics . | indent 4 }}
 {{- end }}
